@@ -4,6 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello World! This is the ScriptureMemorizer Project.");
+        Console.WriteLine("Welcome to the Scripture Memorizer Program.");
+
+        string scripture = @"";
     }
 }
