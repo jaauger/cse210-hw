@@ -1,3 +1,8 @@
+// Week 3 Assignment scripture memorizer, CSE210, Jason Auger
+// Added functionality -- Added option for user to select between 1 and 5 words to hide for each enter key press.  
+// This will make the memorizer more challenging if the user selects the higher number of words to hide.
+// Added the stretch recommendation to only hide each word once. The program keeps track of the hidden words to make sure not to hide them again.
+
 using System;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
