@@ -3,9 +3,9 @@ using System.Transactions;
 
 public class Video
 {
-    string _author;
-    int _length; // in seconds
-    string _title;
+    private string _author;
+    private int _length; // in seconds
+    private string _title;
 
     List<Comment> comments = new List<Comment>();
 
@@ -64,6 +64,11 @@ public class Video
             Console.WriteLine(comment.GetAuthor() + " - " + comment.GetText());
             Console.WriteLine();
         }
+    }
+
+    public void DisplayVideoInformation()
+    { 
+        Console.WriteLine("Title: " + _title + ",  Author: " + _author + ", Length: " + _length + " Seconds" + ", Comments: " + comments.Count);
     }
 
 }
