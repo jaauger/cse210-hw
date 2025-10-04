@@ -14,7 +14,7 @@ public class ListingActivity : Activity
     }
     public void Run()
     {
-
+        AskUserName();
         DisplayActivityWelcome();
         DisplayStartingMessage();
 

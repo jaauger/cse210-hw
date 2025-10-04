@@ -11,7 +11,7 @@ public class ReflectingActivity : Activity
     public void Run()
     {
         string input;
-        
+        AskUserName();
         DisplayActivityWelcome();
         DisplayStartingMessage();
 

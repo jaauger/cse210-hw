@@ -3,20 +3,20 @@ using System.Runtime.CompilerServices;
 
 public class Activity
 {
-
+    protected string _userName;
     protected string _name;
     protected string _description;
     protected int _duration;
     public Activity()
-    { 
-        
+    {
+
     }
     public Activity(string name, string description)
     {
         _name = name;
         _description = description;
     }
-    
+
     public DateTime EndTime()
     {
         DateTime dateTime = DateTime.Now;
@@ -40,7 +40,7 @@ public class Activity
     }
     public void DisplayStartingMessage()
     {
-        Console.WriteLine("Get Ready...");
+        Console.WriteLine($"Get Ready {_userName}...");
 
         ShowSpinner(7);
         Console.WriteLine();
@@ -49,13 +49,14 @@ public class Activity
     public void DisplayEndingMessage()
     {
         Console.WriteLine();
-        Console.WriteLine("Well Done!");
+        Console.WriteLine($"Well Done {_userName}!!");
 
         ShowSpinner(5);
         Console.WriteLine();
         Console.WriteLine("You have completed another " + _duration + " seconds of the " + _name);
         ShowSpinner(5);
-        
+
+        LogActivity();
     }
 
     public void ShowSpinner(int seconds)
@@ -96,8 +97,21 @@ public class Activity
             if (i >= 10)
                 Console.Write("\b\b  \b\b");
             else
-                Console.Write("\b \b");    
+                Console.Write("\b \b");
         }
     }
 
+    public void LogActivity()
+    {
+        using (StreamWriter log = new StreamWriter("mindfulness_log.txt", true))
+        {
+            log.WriteLine($"{DateTime.Now}: Completed {_name} for {_duration} seconds.");
+        }
+    }
+
+    public void AskUserName()
+    {
+        Console.WriteLine("Please enter your name: ");
+        _userName = Console.ReadLine();
+    }
 }

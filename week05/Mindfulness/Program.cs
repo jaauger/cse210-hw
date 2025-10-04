@@ -1,3 +1,17 @@
+
+/*
+1. Session Logging:
+    - Each completed activity is recorded in a text file ("mindfulness_log.txt")
+      with the date, time, activity type, and duration.
+    - This allows the user to track their mindfulness practice history,
+      making the program feel more like a real-world app.
+
+ 2. Personalized Messages:
+    - At the beginning of the program, the user is asked for their name.
+    - The program then uses the name in activity messages (for example:
+      "Great job, Sarah! You completed 60 seconds of mindful breathing.")
+    - This makes the experience more engaging and encouraging.
+*/
 using System;
 
 class Program
@@ -19,7 +33,7 @@ Select a choice from the menu: ");
             choice = int.Parse(input);
 
             switch (choice)
-            {
+            { 
                 case 1:
                     {
                         BreathingActivity breathingActivity = new BreathingActivity("Breathing Activity",
