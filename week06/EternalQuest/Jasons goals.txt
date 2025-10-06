@@ -1,0 +1,4 @@
+CurrentScore: | 790
+SimpleGoal | Simple Goal | This is a simple goal | 10 | True
+EternalGoal | Eternal Goal | This is an eternal goal | 20
+ChecklistGoal | Checklist Goal | This is a checklist goal | 330 | 300 | 3 | 3
