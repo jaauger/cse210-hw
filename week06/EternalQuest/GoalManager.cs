@@ -2,6 +2,8 @@
 public class GoalManager
 {
     private List<Goal> _goals = new List<Goal>();
+
+    private Store _store = new Store();
     protected int _score;
 
     public GoalManager()
@@ -20,11 +22,12 @@ public class GoalManager
                 3 => SaveGoals,
                 4 => LoadGoals,
                 5 => RecordEvent,
-                6 => () => Environment.Exit(0),
+                6 => VisitStore,
+                7 => () => Environment.Exit(0),
                 _ => () => Console.WriteLine("Invalid option. Try again")
             };
 
-            action.Invoke();            
+            action.Invoke();
         }
     }
     public void DisplayPlayerInfo()
@@ -38,7 +41,8 @@ public class GoalManager
         Console.WriteLine("  3. Save Goals");
         Console.WriteLine("  4. Load Goals");
         Console.WriteLine("  5. Record Event");
-        Console.WriteLine("  6. Quit.");
+        Console.WriteLine("  6. Visit the Store");
+        Console.WriteLine("  7. Quit.");
         Console.Write("Select a choice from the menu: ");
     }
     public void ListGoalNames()
@@ -52,16 +56,16 @@ public class GoalManager
     }
     public void ListGoalDetails()
     {
-         Console.WriteLine("The goals are:");
-         int i = 1;
-         foreach (Goal goal in _goals)
-         {
-             string complete = " ";
-             if (goal.IsComplete())
-                 complete = "X";
-             Console.WriteLine($"{i}. [{complete}] {goal.GetDetailsString()}");
-             i++;
-         }
+        Console.WriteLine("The goals are:");
+        int i = 1;
+        foreach (Goal goal in _goals)
+        {
+            string complete = " ";
+            if (goal.IsComplete())
+                complete = "X";
+            Console.WriteLine($"{i}. [{complete}] {goal.GetDetailsString()}");
+            i++;
+        }
     }
     public void CreateGoal()
     {
@@ -126,7 +130,7 @@ public class GoalManager
             Console.WriteLine($"Congratulations! You earned {points} points!");
         }
 
-        _score += points; 
+        _score += points;
         Console.WriteLine($"You now have {_score} points.");
     }
     public void SaveGoals()
@@ -136,7 +140,7 @@ public class GoalManager
 
         using (StreamWriter log = new StreamWriter(fileName, false))
         {
-            string score = $"CurrentScore: | {_score}"; 
+            string score = $"CurrentScore: | {_score}";
             log.WriteLine(score);
             foreach (Goal goal in _goals)
             {
@@ -144,13 +148,13 @@ public class GoalManager
             }
         }
 
-        Console.WriteLine("Your goals have been saved successfully!");        
+        Console.WriteLine("Your goals have been saved successfully!");
     }
     public void LoadGoals()
     {
         Console.Write("What is the filename for the goal file? ");
         string fileName = Console.ReadLine();
-        char delimiter = '|';                        
+        char delimiter = '|';
         Console.WriteLine($"Loading goals now from {fileName}....");
 
         using (StreamReader reader = new StreamReader(fileName))
@@ -165,17 +169,17 @@ public class GoalManager
                     _score = int.Parse(lineParts[1]);
                 }
                 if (lineParts[0] == "SimpleGoal")
-                    {
-                        bool complete = (lineParts[4] == "True") ? true : false;
-                        SimpleGoal simpleGoal = new SimpleGoal(lineParts[1], lineParts[2], lineParts[3], complete);
-                        _goals.Add(simpleGoal);
-                        //Console.WriteLine("Loaded Simple Goal");
-                    }
+                {
+                    bool complete = (lineParts[4] == "True") ? true : false;
+                    SimpleGoal simpleGoal = new SimpleGoal(lineParts[1], lineParts[2], lineParts[3], complete);
+                    _goals.Add(simpleGoal);
+                    //Console.WriteLine("Loaded Simple Goal");
+                }
                 if (lineParts[0] == "EternalGoal")
                 {
                     EternalGoal eternalGoal = new EternalGoal(lineParts[1], lineParts[2], lineParts[3]);
                     _goals.Add(eternalGoal);
-                   //Console.WriteLine("Loaded Eternal Goal");
+                    //Console.WriteLine("Loaded Eternal Goal");
                 }
                 if (lineParts[0] == "ChecklistGoal")
                 {
@@ -208,5 +212,50 @@ public class GoalManager
         str.Add(ReadLineStr());
 
         return str;
+    }
+    
+    private void VisitStore()
+    {
+        bool stayInStore = true;
+
+        while (stayInStore)
+        {
+            Console.WriteLine($"\nYou have {_score} points.");
+            Console.WriteLine("1. View Available Items");
+            Console.WriteLine("2. View Purchased Items");
+            Console.WriteLine("3. Purchase an Item");
+            Console.WriteLine("4. Return to Main Menu");
+            Console.Write("Choose an option: ");
+
+            int storeChoice = ReadLineInt();
+
+            switch (storeChoice)
+            {
+                case 1:
+                    _store.DisplayItems();
+                    break;
+                case 2:
+                    _store.DisplayPurchased();
+                    break;
+                case 3:
+                    _store.DisplayItems();
+                    Console.Write("Enter item number to purchase: ");
+                    int itemNumber = ReadLineInt();
+
+                    int cost = _store.Purchase(itemNumber, _score);
+                    if (cost > 0)
+                    {
+                        _score -= cost;
+                        Console.WriteLine($"Remaining points: {_score}");
+                    }
+                    break;
+                case 4:
+                    stayInStore = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    break;
+            }
+        }
     }
 }
